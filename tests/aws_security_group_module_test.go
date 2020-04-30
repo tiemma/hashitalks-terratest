@@ -9,7 +9,9 @@ import (
 )
 
 func TestAWSSecurityGroupModule(t *testing.T) {
-	t.Parallel()
+
+		t.Parallel()
+
 	terraformOptions := &terraform.Options{
 		TerraformDir: "../modules/aws/security_group",
 		Vars:         map[string]interface{}{"used_by": []string{}},

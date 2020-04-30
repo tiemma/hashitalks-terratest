@@ -14,7 +14,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAWSModules(t *testing.T) {
+func TestE2EInstanceSetup(t *testing.T) {
+
 	t.Parallel()
 
 	packerOptions := &packer.Options{

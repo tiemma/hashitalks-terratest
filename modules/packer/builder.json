@@ -4,45 +4,47 @@
         "AWS_PROFILE": "{{env `AWS_PROFILE`}}",
         "AWS_REGION": "{{env `AWS_REGION`}}"
     },
-    "provisioners": [{
-        "type": "shell",
-        "inline": [
-            "curl -fsSL https://get.docker.com | sh",
-            "sudo usermod -aG docker ubuntu",
-            "sudo apt-get install openssh-server",
-            "sudo systemctl enable ssh",
-            "sudo systemctl start ssh"
-        ]
-    }],
-    "builders": [{
-        "ami_name": "packer-ami {{timestamp}}",
-        "ami_regions": "{{user `AMI_REGION`}}",
-        "tags": {
-            "Managed_By": "packer",
-            "OS_Version": "Ubuntu",
-            "Release": "Latest",
-            "Base_AMI_Name": "{{ .SourceAMIName }}",
-            "Extra": "{{ .SourceAMITags.TagName }}"
-        },
-        "profile": "{{user `AWS_PROFILE`}}",
-        "type": "amazon-ebs",
-        "region": "{{user `AWS_REGION`}}",
-        "instance_type": "t2.micro",
-        "associate_public_ip_address": true,
-        "source_ami_filter": {
-            "filters": {
-                "virtualization-type": "hvm",
-                "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
-                "root-device-type": "ebs"
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "curl -fsSL https://get.docker.com | sh",
+                "sudo usermod -aG docker ubuntu",
+                "sudo apt-get install openssh-server",
+                "sudo systemctl enable ssh",
+                "sudo systemctl start ssh"
+            ]
+        }
+    ],
+    "builders": [
+        {
+            "ami_name": "packer-ami {{timestamp}}",
+            "ami_regions": "{{user `AMI_REGION`}}",
+            "tags": {
+                "Managed_By": "packer",
+                "OS_Version": "Ubuntu",
+                "Release": "Latest",
+                "Base_AMI_Name": "{{ .SourceAMIName }}",
+                "Extra": "{{ .SourceAMITags.TagName }}"
             },
-            "owners": [
-                "099720109477"
-            ],
-            "most_recent": true
-        },
-        "communicator": "ssh",
-        "ssh_username": "ubuntu",
-        "pause_before_connecting": "1m"
-
-    }]
+            "profile": "{{user `AWS_PROFILE`}}",
+            "type": "amazon-ebs",
+            "region": "{{user `AWS_REGION`}}",
+            "instance_type": "t2.micro",
+            "associate_public_ip_address": true,
+            "source_ami_filter": {
+                "filters": {
+                    "virtualization-type": "hvm",
+                    "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+                    "root-device-type": "ebs"
+                },
+                "owners": [
+                    "099720109477"
+                ],
+                "most_recent": true
+            },
+            "communicator": "ssh",
+            "ssh_username": "ubuntu"
+        }
+    ]
 }

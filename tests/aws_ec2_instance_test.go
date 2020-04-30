@@ -13,8 +13,7 @@ import (
 )
 
 func TestAWSEC2Module(t *testing.T) {
-	t.Parallel()
-
+	
 	packerOptions := &packer.Options{
 		Template: "../modules/packer/builder.json",
 	}
